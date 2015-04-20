@@ -147,7 +147,7 @@ function cleanUpAndExitWithCode(exitCode) {
 }
 
 function writeMedicLogUrl(url) {
-    console.log("cordova-paramedic :: writing medic log url to project");
+    console.log("cordova-paramedic :: writing medic log url " + url + " to project");
     var obj = {logurl:url};
     fs.writeFileSync(path.join("www","medic.json"),JSON.stringify(obj));
 }
@@ -184,7 +184,8 @@ function startServer() {
             console.log('Detected ip address: ' + ip);
             var server = http.createServer(requestListener);
             server.listen(PORT, ip, function onServerConnect() {
-                writeMedicLogUrl('http://' + ip + ':' + PORT);
+                var resultServer = nconf.get('resultServer') || ip;
+                writeMedicLogUrl('http://' + resultServer + ':' + PORT);
                 addAndRunPlatform();
             });
         }
